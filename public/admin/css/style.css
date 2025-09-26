@@ -49,10 +49,43 @@ header.header {
   color: #fff;
 }
 
-/* Main content */
-.main {
-  flex: 1;
-  background: #fff;
-  padding: 20px;
-  overflow-y: auto;
+/* Đảm bảo bảng full chiều ngang */
+table {
+  width: 100%;
+  text-align: center;
+  vertical-align: middle;
 }
+
+/* Căn giữa hình ảnh */
+table td img {
+  display: block;
+  margin: 0 auto;
+  border-radius: 4px;
+}
+
+/* Badge trạng thái */
+.badge-success {
+  background-color: #28a745 !important; /* xanh lá */
+  padding: 5px 10px;
+  font-size: 13px;
+}
+
+.badge-danger {
+  background-color: #dc3545 !important; /* đỏ */
+  padding: 5px 10px;
+  font-size: 13px;
+}
+
+/* Nút hành động */
+.btn-warning.btn-sm {
+  font-size: 13px;
+  padding: 4px 8px;
+  color: #000;
+}
+
+.btn-danger.btn-sm {
+  font-size: 13px;
+  padding: 4px 8px;
+}
+
+

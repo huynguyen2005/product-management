@@ -1,0 +1,17 @@
+mixin box-product(item)
+    .product-item
+        .inner-image
+            img(src=item.thumbnail, alt=item.title)
+            .action-buttons
+                a(href="#", title="Xem nhanh")
+                    i.fas.fa-search-plus
+                a(href="#", title="Thêm giỏ hàng")
+                    i.fas.fa-shopping-cart
+                a(href="#", title="Xem chi tiết")
+                    i.fas.fa-eye
+        .inner-content
+            h3.inner-title #{item.title}
+                .price-box
+                    .inner-price-new #{item.priceNew}₫
+                    .inner-price-old #{item.price}₫
+
