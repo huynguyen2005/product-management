@@ -46,7 +46,7 @@ module.exports.index = async (req, res) => {
     });
 }
 
-//[PATCH] /admin/products/:status/:id
+//[PATCH] /admin/products/change-status/:status/:id
 module.exports.changeStatus = async (req, res) => {
     const status = req.params.status;
     const id = req.params.id;
@@ -54,4 +54,15 @@ module.exports.changeStatus = async (req, res) => {
     await Product.updateOne({_id: id}, {status: status});
 
     res.redirect(`/admin/products?page=${req.query.page || 1}`); //Chuyển hướng về trang trước khi bấm
+}
+
+
+//[PATCH] /admin/products/change-multi
+module.exports.changeMulti = async (req, res) => {
+    const type = req.body.type;
+    const ids = req.body.ids.split(", ");
+
+    await Product.updateMany({_id: { $in: ids } }, { status: type });
+
+    res.redirect(`/admin/products?page=${req.query.page || 1}`);
 }
