@@ -44,6 +44,4 @@ if(patinationButtonList){
         })
     });
 }
-
-
 //End Button pagination
