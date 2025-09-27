@@ -1,7 +1,8 @@
 const express = require('express');
 const methodOverride = require('method-override');
-const bodyParser = require('body-parser');
-
+const flash = require('express-flash');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
 require('dotenv').config();
 
@@ -21,11 +22,20 @@ app.set('view engine', 'pug');
 app.use(express.static('public'));
 app.use(methodOverride('_method'));
 
+//định nghĩa flash
+app.use(cookieParser('HUYDZ'));
+app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(flash());
+
 app.use(express.urlencoded({ extended: true })); // cho form, extended: true - dùng để hỗ trợ dữ liệu phức tạp
 // app.use(express.json()); // cho JSON
 //giúp express hiểu và parse dữ liệu từ form sang objectJS trong res.body
 
+
+
 app.locals.preFixAdmin = systemConfig.preFixAdmin;
+
+
 
 routeClient(app);
 routeAdmin(app);

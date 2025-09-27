@@ -1,0 +1,10 @@
+mixin alert(time)
+    //- không phải truyền messages vì nó là biến global
+    - if (messages.success)
+        .message.info
+            div(
+                class="alert alert-success" 
+                show-alert
+                data-time=time
+            ) #{messages.success} 
+                span(close-alert) x 
