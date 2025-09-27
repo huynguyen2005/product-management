@@ -66,3 +66,13 @@ module.exports.changeMulti = async (req, res) => {
 
     res.redirect(`/admin/products?page=${req.query.page || 1}`);
 }
+
+
+//[DELETE] /admin/products/delete/:id
+module.exports.deleteProduct = async (req, res) => {
+    const productID = req.params.id;
+    
+    await Product.deleteOne({_id: productID});
+
+    res.redirect(`/admin/products/?page=${req.query.page || 1}`);
+}

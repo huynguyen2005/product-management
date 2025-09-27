@@ -18,7 +18,7 @@ block main
     .card.mb-3
         .card-header Danh sách
         .card-body
-            +form-change-multi(`${preFixAdmin}/products/change-multi?_method=PATCH&page=${pagination.currentPage}`);
+            +form-change-multi(`${preFixAdmin}/products/change-multi?_method=PATCH&page=${pagination.currentPage}`)
             table(
                 class = "table table-hover table-sm"
                 checkbox-multi  
@@ -71,7 +71,11 @@ block main
                                     ) Dừng hoạt động
                             td
                                 button.btn.btn-warning.btn-sm Sửa
-                                button.btn.btn-danger.btn-sm.ml-1 Xóa
+                                button(
+                                    class="btn btn-danger btn-sm ml-1"
+                                    data-id= item.id 
+                                    button-delete
+                                ) Xóa
     +pagination(pagination)
 
     form(
@@ -79,6 +83,14 @@ block main
         method="POST"
         id="form-change-status"
         data-path=`${preFixAdmin}/products/change-status`
+        data-page=pagination.currentPage
+    ) 
+
+    form(
+        action=""
+        method="POST"
+        id="form-delete-product"
+        data-path=`${preFixAdmin}/products/delete`
         data-page=pagination.currentPage
     ) 
 
