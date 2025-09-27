@@ -83,7 +83,18 @@ if(formChangeMulti){
     formChangeMulti.addEventListener("submit", (e) => {
         e.preventDefault();
         const inputsChecked = checkboxMulti.querySelectorAll("input[name='id']:checked");
+
         if(inputsChecked.length > 0){
+
+            //Thông báo xác nhận xóa sản phẩm đến client
+            const typeChange = e.target.elements.type.value;
+            if(typeChange === "delete-all"){
+                const isConfirm = confirm("Bạn có chắn chắn muốn xóa những sản phẩm này?");
+
+                if(!isConfirm)   return;
+            }
+
+            //Lấy ra danh sách id những sản phẩm muốn thay đổi
             const idsInput = formChangeMulti.querySelector("input[name='ids']");
 
             let ids = [];
@@ -94,6 +105,8 @@ if(formChangeMulti){
             idsInput.value = ids.join(", ");
 
             formChangeMulti.submit();
+        }else{
+            alert("Vui lòng chọn ít nhất 1 bản ghi");
         }
     });
 }
