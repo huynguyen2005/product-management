@@ -98,8 +98,16 @@ if(formChangeMulti){
             const idsInput = formChangeMulti.querySelector("input[name='ids']");
 
             let ids = [];
-            inputsChecked.forEach(item => {
-                ids.push(item.value);
+            inputsChecked.forEach(input => {
+                const productID = input.value;
+                if(typeChange === "change-position"){
+                    const position = input
+                                    .closest("tr")
+                                    .querySelector("input[name='position']").value;
+                    ids.push(`${productID}-${position}`);
+                }else{
+                    ids.push(input.value);
+                }
             });
             
             idsInput.value = ids.join(", ");

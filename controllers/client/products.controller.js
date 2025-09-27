@@ -3,10 +3,8 @@ const Product = require('../../models/product.model');
 // [GET] /product
 module.exports.index = async (req, res) => {
 
-    const productList = await Product.find({
-        status: "active",
-        deleted: "false"
-    });
+    const productList = await Product.find({status: "active", deleted: "false"})
+                                    .sort({position : "desc"});
 
     const newProductList = productList.map(item => {
         item.priceNew = (item.price - (item.price*item.discountPercentage)/100).toFixed(0);

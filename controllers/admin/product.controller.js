@@ -35,7 +35,10 @@ module.exports.index = async (req, res) => {
     );
 
     //End Pagination
-    const productList = await Product.find(find).limit(objectPagination.limitItems).skip(objectPagination.skip);
+    const productList = await Product.find(find)
+                                    .sort({position : "desc"})
+                                    .limit(objectPagination.limitItems)
+                                    .skip(objectPagination.skip);
 
     res.render('admin/pages/products/index', {
         title: "Trang san pham",
@@ -75,10 +78,14 @@ module.exports.changeMulti = async (req, res) => {
                 deletedAt: new Date()
             });
             break;
+        case "change-position":
+            for(let item of ids){
+                const [id, position] = item.split('-');
+                await Product.updateOne({_id: id}, {position: parseInt(position)});
+            }
         default:
             break;
     }
-    await Product.updateMany({_id: { $in: ids } }, { status: type });
 
     res.redirect(`/admin/products?page=${req.query.page || 1}`);
 }
