@@ -129,7 +129,7 @@ module.exports.createProduct = async (req, res) => {
     req.body.price = parseInt(req.body.price);
     req.body.discountPercentage = parseInt(req.body.discountPercentage);
     req.body.stock = parseInt(req.body.stock);
-
+    req.body.thumbnail = `/admin/uploads/${req.file.filename}`;
 
     if(req.body.position){
         req.body.position = parseInt(req.body.position);
@@ -137,6 +137,7 @@ module.exports.createProduct = async (req, res) => {
         const countProduct = await Product.countDocuments();
         req.body.position = countProduct + 1;
     }   
+
 
     const product = new Product(req.body); //Tạo mới 1 product nhưng chưa lưu
     await product.save(); //phương thức save() để lưu vào db
