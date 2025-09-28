@@ -23,7 +23,14 @@ block main
     .card.mb-3
         .card-header Danh sách
         .card-body
-            +form-change-multi(`${preFixAdmin}/products/change-multi?_method=PATCH&page=${pagination.currentPage}`)
+            .row 
+                .col-8
+                    +form-change-multi(`${preFixAdmin}/products/change-multi?_method=PATCH&page=${pagination.currentPage}`)
+                .col-4
+                    a(
+                        href=`${preFixAdmin}/products/create`
+                        class="btn btn-outline-success"
+                    ) + Thêm mới
             table(
                 class = "table table-hover table-sm"
                 checkbox-multi  
