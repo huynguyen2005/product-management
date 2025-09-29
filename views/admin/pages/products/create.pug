@@ -60,17 +60,29 @@ block main
                 value="0"
                 min="0"
             )
-
-        div(class="form-group")
+        div(
+            class="form-group"
+            upload-image
+        )
             label(for="thumbnail") Ảnh
-            input(
-                type="file"
-                class="form-control-file"
-                id="thumbnail"
-                name="thumbnail"
-                accept="image/*"
+            div(class="d-flex align-items-center gap-2")
+                input(
+                    type="file"
+                    class="form-control-file"
+                    id="thumbnail"
+                    name="thumbnail"
+                    accept="image/*"
+                    upload-image-input
+                )
+                span(
+                    close-image
+                    style="cursor:pointer; font-weight:bold;"
+                ) 
+            img(
+                src=""
+                class="image-preview"
+                upload-image-preview
             )
-
         div(class="form-group")
             label(for="position") Vị trí
             input(

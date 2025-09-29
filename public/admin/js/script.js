@@ -161,3 +161,26 @@ if(showAlert){
 
 }
 //End show alert
+
+
+//Updload image
+const uploadImage = document.querySelector('[upload-image]');
+if(uploadImage){
+    const uploadImageInput = uploadImage.querySelector('[upload-image-input]');
+    const uploadImagePreview = uploadImage.querySelector('[upload-image-preview]');
+    const closeImage = uploadImage.querySelector('[close-image]');
+    uploadImageInput.addEventListener("change", (e) => {
+        const [file] = e.target.files;
+        if(file){
+            uploadImagePreview.src = URL.createObjectURL(file); //tạo ra một URL tạm thời trỏ tới file đó trong bộ nhớ trình duyệt
+            closeImage.textContent = "✕";
+        }
+        closeImage.addEventListener("click", () => {
+            uploadImageInput.value = "";
+            uploadImagePreview.src = "";
+            closeImage.textContent = "";
+        })
+    });
+
+}
+//End upload image
