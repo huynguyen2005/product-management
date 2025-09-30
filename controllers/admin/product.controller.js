@@ -124,7 +124,7 @@ module.exports.create = (req, res) => {
     });
 }
 
-
+//[POST] /admin/products/create
 module.exports.createProduct = async (req, res) => {
 
     req.body.price = parseInt(req.body.price);
@@ -146,4 +146,49 @@ module.exports.createProduct = async (req, res) => {
     await product.save(); //phương thức save() để lưu vào db
 
     res.redirect(`${systemConfig.preFixAdmin}/products`);
+}
+
+
+//[GET] /admin/products/edit/:id
+module.exports.edit = async (req, res) => {
+
+    try{
+        const find = {
+            deleted: false,
+            _id: req.params.id
+        }
+
+        const product = await Product.findOne(find);
+
+        res.render("admin/pages/products/edit", {
+            pageTitle: "Chỉnh sửa sản phẩm",
+            product: product
+        });
+    }
+    catch(error){
+
+        res.redirect(`${systemConfig.preFixAdmin}/products`);
+    }
+}
+
+
+//[PATCH] /admin/products/edit/:id
+module.exports.editProduct = async (req, res) => {
+    req.body.price = parseInt(req.body.price);   
+    req.body.discountPercentage = parseInt(req.body.discountPercentage);
+    req.body.stock = parseInt(req.body.stock);
+    req.body.position = parseInt(req.body.position);
+
+    if(req.file){
+        req.body.thumbnail = `/admin/uploads/${req.file.filename}`;
+    }
+
+    try{
+        await Product.updateOne({_id: req.params.id}, req.body);
+        req.flash('success', 'Cập nhật sản phẩm thành công');
+        res.redirect(`${systemConfig.preFixAdmin}/products/edit/${req.params.id}`); 
+    }
+    catch(error){
+        res.redirect(`${systemConfig.preFixAdmin}/products`);
+    }
 }
