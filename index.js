@@ -16,10 +16,10 @@ database.connectDatabase();
 const app = express();
 const port = process.env.PORT;
 
-app.set('views', './views');
+app.set('views', `${__dirname}/views`);
 app.set('view engine', 'pug');
 
-app.use(express.static('public'));
+app.use(express.static(`${__dirname}/public`));
 app.use(methodOverride('_method'));
 
 //định nghĩa flash
@@ -32,7 +32,7 @@ app.use(express.urlencoded({ extended: true })); // cho form, extended: true - d
 //giúp express hiểu và parse dữ liệu từ form sang objectJS trong res.body
 
 
-
+//app local variables
 app.locals.preFixAdmin = systemConfig.preFixAdmin;
 
 
