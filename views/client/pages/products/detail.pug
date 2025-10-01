@@ -1,0 +1,50 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main
+  .container.my-4
+    .row
+      .col-12
+        +box-head("Chi tiết sản phẩm")
+
+    .row
+      .col-md-6
+        .product-detail-image
+          img(src=product.thumbnail, alt=product.title)
+
+      .col-md-6
+        .product-detail-info
+          h2.product-title #{product.title}
+
+          if product.priceNew
+            .price
+              span.inner-price-new #{product.priceNew}đ
+              if product.price
+                span.inner-price-old #{product.price}đ
+              if product.discountPercentage
+                span.inner-discount -#{product.discountPercentage}%
+
+          if product.status
+            .status
+              span Trạng thái: 
+              if product.status === "active"
+                span.badge.badge-success Hoạt động
+              else
+                span.badge.badge-danger Dừng hoạt động
+
+          if product.stock
+            .stock
+              span Còn lại: 
+              b #{product.stock}
+
+          if product.position
+            .position
+              span Vị trí: 
+              b #{product.position}
+
+          if product.description
+            .description.mt-3
+              h4 Mô tả sản phẩm
+              p #{product.description}
+
+    script(src="/admin/js/product.js")

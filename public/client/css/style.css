@@ -51,6 +51,10 @@
 
 
 .product-item {
+  display: block;               /* bắt buộc để a behave như div */
+  text-decoration: none;        /* bỏ gạch chân */
+  color: inherit;               /* giữ nguyên màu chữ bên trong */
+  
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 15px;
@@ -63,6 +67,7 @@
 .product-item:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+  text-decoration: none; /* khi hover cũng không gạch chân */
 }
 
 .product-item .inner-image img {
@@ -101,3 +106,69 @@
 }
 
 
+
+.product-detail-image img {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.product-detail-info {
+  padding: 15px;
+}
+
+.product-detail-info .product-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.product-detail-info .price {
+  margin-bottom: 12px;
+}
+
+.product-detail-info .inner-price-new {
+  font-size: 22px;
+  font-weight: bold;
+  color: #e74c3c;
+  margin-right: 8px;
+}
+
+.product-detail-info .inner-price-old {
+  font-size: 16px;
+  color: #888;
+  text-decoration: line-through;
+  margin-right: 8px;
+}
+
+.product-detail-info .inner-discount {
+  font-size: 16px;
+  color: #27ae60;
+  font-weight: 500;
+}
+
+.product-detail-info .status,
+.product-detail-info .stock,
+.product-detail-info .position {
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+
+.product-detail-info .description {
+  margin-top: 20px;
+}
+
+.product-detail-info .description h4 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.product-detail-info .description p {
+  font-size: 15px;
+  color: #444;
+  line-height: 1.6;
+}

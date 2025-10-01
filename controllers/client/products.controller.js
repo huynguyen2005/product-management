@@ -19,10 +19,26 @@ module.exports.index = async (req, res) => {
     });
 };
 
-module.exports.edit = (req, res) => {
-    res.render('client/pages/products/index.pug');
-};
 
-module.exports.create = (req, res) => {
-    res.render('client/pages/products/index.pug');
-};
+//[GET] /products/:slug
+module.exports.detail = async (req, res) => {
+    try{
+        const find = {
+            slug: req.params.slug,
+            deleted: false,
+            status: "active"
+        };
+
+        const product = await Product.findOne(find);
+
+        product.priceNew = (product.price - (product.price*product.discountPercentage)/100).toFixed(0);
+
+        res.render("client/pages/products/detail", {
+            title: product.title,
+            product: product
+        });
+    }
+    catch(error){
+        res.redirect('/products');
+    }
+}
