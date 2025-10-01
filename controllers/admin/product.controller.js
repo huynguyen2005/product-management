@@ -138,9 +138,9 @@ module.exports.createProduct = async (req, res) => {
         req.body.position = countProduct + 1;
     }   
 
-    if(req.file){
-        req.body.thumbnail = `/admin/uploads/${req.file.filename}`;
-    }
+    // if(req.file){
+    //     req.body.thumbnail = `/admin/uploads/${req.file.filename}`;
+    // }
 
     const product = new Product(req.body); //Tạo mới 1 product nhưng chưa lưu
     await product.save(); //phương thức save() để lưu vào db

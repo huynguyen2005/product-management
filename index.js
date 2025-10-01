@@ -10,12 +10,15 @@ const routeClient = require('./routes/client/index.route');
 const routeAdmin = require('./routes/admin/index.route');
 const systemConfig = require('./config/system');
 
+
+//Kết nối với database
 const database = require('./config/database');
 database.connectDatabase();
 
 const app = express();
 const port = process.env.PORT;
 
+//__dirname để lấy ra đường dẫn của project
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'pug');
 

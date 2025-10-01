@@ -2,10 +2,12 @@ const express = require('express');
 const router = express.Router();
 const multer  = require('multer');
 
-const storageMulter = require('../../helpers/storageMulter');
-const upload = multer({ storage : storageMulter() }); //Đường dẫn là nó sẽ đứng từ thư mục gốc để nó đi vào folder uploads
+// const storageMulter = require('../../helpers/storageMulter');
+const upload = multer(); 
+
 const controller = require('../../controllers/admin/product.controller');
 const validate = require('../../validates/admin/product.validate');
+const uploadCloud = require('../../middlewares/admin/uploadCloud.middleware');
 
 router.get('/', controller.index);
 
@@ -22,9 +24,10 @@ router.get("/create", controller.create);
 router.post(
     '/create', 
     upload.single('thumbnail'), 
+    uploadCloud.upload,
     validate.createProduct,
     controller.createProduct
-); //multer lấy file từ input có tên là thumbnail về req.file
+); 
 
 
 router.get("/edit/:id", controller.edit);
