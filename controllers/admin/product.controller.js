@@ -38,11 +38,17 @@ module.exports.index = async (req, res) => {
     );
 
     //End Pagination
+
+    //Sort 
+    const sort = {};
+    req.query.sortKey && req.query.sortValue ? sort[req.query.sortKey] = req.query.sortValue : sort["position"] = "desc";
+    //End sort
     const productList = await Product.find(find)
-                                    .sort({position : "desc"})
+                                    .sort(sort)
                                     .limit(objectPagination.limitItems)
                                     .skip(objectPagination.skip);
 
+    
     res.render('admin/pages/products/index', {
         title: "Trang san pham",
         products: productList,
@@ -178,10 +184,6 @@ module.exports.editProduct = async (req, res) => {
     req.body.discountPercentage = parseInt(req.body.discountPercentage);
     req.body.stock = parseInt(req.body.stock);
     req.body.position = parseInt(req.body.position);
-
-    if(req.file){
-        req.body.thumbnail = `/admin/uploads/${req.file.filename}`;
-    }
 
     try{
         await Product.updateOne({_id: req.params.id}, req.body);

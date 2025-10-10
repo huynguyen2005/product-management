@@ -184,3 +184,35 @@ if(uploadImage){
 
 }
 //End upload image
+
+
+
+//Sort 
+const sort = document.querySelector('[sort]');
+if(sort){
+    const select = sort.querySelector('select');
+    const url = new URL(window.location.href);
+    const btnClear = sort.querySelector('[sort-clear]');
+    select.addEventListener('change', () => {
+        const value = select.value.split('-');
+        const [sortKey, sortValue] = value;
+        url.searchParams.set('sortKey', sortKey);
+        url.searchParams.set('sortValue', sortValue);
+        window.location.href = url;
+    });
+
+    const sortKey = url.searchParams.get('sortKey');
+    const sortValue = url.searchParams.get('sortValue');
+    if(sortKey && sortValue){
+        const value = `${sortKey}-${sortValue}`;
+        const option = sort.querySelector(`option[value=${value}]`);
+        option.selected = true;
+    }
+    btnClear.addEventListener('click', () => {
+        url.searchParams.delete('sortKey');
+        url.searchParams.delete('sortValue');
+        window.location.href = url;
+    });
+
+}
+//End sort
