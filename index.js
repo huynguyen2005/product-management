@@ -4,6 +4,7 @@ const flash = require('express-flash');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const multer  = require('multer');
+const path = require('path');
 require('dotenv').config();
 
 const routeClient = require('./routes/client/index.route');
@@ -38,7 +39,10 @@ app.use(express.urlencoded({ extended: true })); // cho form, extended: true - d
 //app local variables
 app.locals.preFixAdmin = systemConfig.preFixAdmin;
 
-
+//TinyMCE
+app.use('/tinymce', 
+    express.static(path.join(__dirname, 'node_modules', 'tinymce'))
+);
 
 routeClient(app);
 routeAdmin(app);
