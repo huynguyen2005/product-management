@@ -3,12 +3,12 @@ include ../../mixins/alert.pug
 include ../../mixins/select-tree.pug 
 
 block main
-    h1(class="mb-4") Thêm mới sản phẩm
+    h1(class="mb-4") Sửa danh mục sản phẩm
 
     +alert-error("5000")
     form(
-        action=`${preFixAdmin}/products/create`
-        id="form-create-product"
+        action=`${preFixAdmin}/product-category/edit/${category.id}?_method=PATCH`
+        id="form-edit-product-category"
         method="POST"
         enctype="multipart/form-data"
     )
@@ -19,13 +19,13 @@ block main
                 class="form-control"
                 id="title"
                 name="title"
+                value=category.title
             )
         div(class="form-group")
-            label(for="product_category_id") Danh mục cha
-            select(name="product_category_id" id="product_category_id" class="form-control")
+            label(for="parent_id") Danh mục cha
+            select(name="parent_id" id="parent_id" class="form-control")
                 option(value="") -- Chọn danh mục cha --
-                +select-tree-create(categories)
-
+                +select-tree-edit(categories, 1, category.parent_id)
         div(class="form-group")
             label(for="desc") Mô tả
             textarea(
@@ -33,40 +33,7 @@ block main
                 id="desc"
                 name="description"
                 rows="5"
-            )
-
-        div(class="form-group")
-            label(for="price") Giá
-            input(
-                type="number"
-                class="form-control"
-                id="price"
-                name="price"
-                value="0"
-                min="0"
-            )
-
-        div(class="form-group")
-            label(for="discount") % Giảm giá
-            input(
-                type="number"
-                class="form-control"
-                id="discount"
-                name="discountPercentage"
-                value="0"
-                min="0"
-            )
-
-        div(class="form-group")
-            label(for="stock") Số lượng
-            input(
-                type="number"
-                class="form-control"
-                id="stock"
-                name="stock"
-                value="0"
-                min="0"
-            )
+            ) #{category.description}
         div(
             class="form-group"
             upload-image
@@ -86,7 +53,7 @@ block main
                     style="cursor:pointer; font-weight:bold;"
                 ) 
             img(
-                src=""
+                src=category.thumbnail
                 class="image-preview"
                 upload-image-preview
             )
@@ -99,6 +66,7 @@ block main
                 name="position"
                 placeholder="Tự động tăng"
                 min="1"
+                value=category.position
             )
 
         div(class="form-group form-check form-check-inline")
@@ -108,7 +76,7 @@ block main
                 id="statusActive"
                 name="status"
                 value="active"
-                checked
+                checked=(category.status=="active")
             )
             label(for="statusActive" class="form-check-label") Hoạt động
 
@@ -119,6 +87,7 @@ block main
                 id="statusInactive"
                 name="status"
                 value="inactive"
+                checked=(category.status=="inactive")
             )
             label(for="statusInactive" class="form-check-label") Dừng hoạt động
 
@@ -126,7 +95,7 @@ block main
             button(
                 type="submit"
                 class="btn btn-primary"
-            ) Tạo mới 
+            ) Cập nhật
 
 
 

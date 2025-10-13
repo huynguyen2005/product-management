@@ -1,11 +1,11 @@
 const Product = require('../../models/product.model.js');
-
+const ProductCategory = require('../../models/product-category.model.js');
 const systemConfig = require("../../config/system");
 
 const filterStatusHelper = require('../../helpers/filterStatus.js');
 const searchHelper = require('../../helpers/search.js');
 const patigationHelper = require('../../helpers/patigation.js');
-
+const createTreeHelper = require('../../helpers/createTree.js');
 
 //[GET] /admin/products
 module.exports.index = async (req, res) => {
@@ -124,9 +124,12 @@ module.exports.deleteProduct = async (req, res) => {
 
 
 //[GET] /admin/products/create
-module.exports.create = (req, res) => {
+module.exports.create = async (req, res) => {
+    const categories = await ProductCategory.find({deleted: false});
+    const newCategories = createTreeHelper.createTree(categories);
     res.render("admin/pages/products/create", {
-        pageTitle: "Thêm mới sản phẩm"
+        pageTitle: "Thêm mới sản phẩm",
+        categories: newCategories
     });
 }
 
@@ -143,10 +146,6 @@ module.exports.createProduct = async (req, res) => {
         const countProduct = await Product.countDocuments();
         req.body.position = countProduct + 1;
     }   
-
-    // if(req.file){
-    //     req.body.thumbnail = `/admin/uploads/${req.file.filename}`;
-    // }
 
     const product = new Product(req.body); //Tạo mới 1 product nhưng chưa lưu
     await product.save(); //phương thức save() để lưu vào db

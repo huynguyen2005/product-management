@@ -3,7 +3,6 @@ const methodOverride = require('method-override');
 const flash = require('express-flash');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const multer  = require('multer');
 const path = require('path');
 require('dotenv').config();
 
