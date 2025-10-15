@@ -41,3 +41,23 @@ module.exports.editRole = async (req, res) => {
     }
     res.redirect(`${systemConfig.preFixAdmin}/roles/edit/${id}`);
 }
+
+
+//[GET] /admin/roles/permissions
+module.exports.permissions = async (req, res) => {
+    const roles = await Role.find({deleted: false});
+    res.render('admin/pages/roles/permissions', {
+        roles: roles
+    })
+}
+
+
+//[PATCH] /admin/roles/permissions
+module.exports.permissionsPatch = async (req, res) => {
+    const permissionRecords = JSON.parse(req.body.permissions);
+    for(let record of permissionRecords){
+        await Role.updateOne({_id: record.id}, {permissions: record.permissions});
+    }
+    req.flash("success", "Sửa quyền thành công");
+    res.redirect(`${systemConfig.preFixAdmin}/roles/permissions`);
+}

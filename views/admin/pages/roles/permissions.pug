@@ -1,0 +1,61 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+block main
+    h1(class="mb-4") Phân quyền
+    div(data-records=roles)
+
+    +alert-success(5000)
+
+    div(class="text-right")
+        button(
+            class="btn btn-primary mb-3"
+            button-submit
+        ) Cập nhật
+
+    table(class="table table-hover table-sm" table-permissions)
+        thead
+            tr
+                th Tính năng
+                each role in roles
+                    th(class="text-center") #{role.title}
+        tbody
+            tr(data-name="id" class="d-none")
+                td 
+                each role in roles  
+                    td 
+                        input(type="text" value=role.id)                
+            tr
+                td(colspan="4") Danh mục sản phẩm
+
+            tr(data-name="products-category_view")
+                td Xem
+                each role in roles  
+                    td(class="text-center")
+                        input(type="checkbox")
+
+            tr(data-name="products-category_create")
+                td Thêm mới
+                each role in roles  
+                    td(class="text-center")
+                        input(type="checkbox")
+
+            tr(data-name="products-category_edit")
+                td Chỉnh sửa
+                each role in roles  
+                    td(class="text-center")
+                        input(type="checkbox")
+
+            tr(data-name="products-category_delete")
+                td Xóa
+                each role in roles  
+                    td(class="text-center")
+                        input(type="checkbox")
+
+    form(
+        action=`${preFixAdmin}/roles/permissions?_method=PATCH`
+        method="POST"
+        form-permissions
+    ) 
+        input(type="text" name="permissions" class="d-none")   
+    script(src="/admin/js/role.js") 
