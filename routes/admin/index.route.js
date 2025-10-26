@@ -5,17 +5,34 @@ const roleRouter = require('./role.route');
 const accountRouter = require('./account.route');
 const authRouter = require('./auth.route');
 const systemConfig = require('../../config/system');
+const authMiddleware = require('../../middlewares/admin/auth.middleware');
+
 module.exports = (app) => {
 
-    app.use(systemConfig.preFixAdmin + '/dashboard', dashboardRouter);
-
-    app.use(systemConfig.preFixAdmin + '/products', productRouter);
-
-    app.use(systemConfig.preFixAdmin + '/product-category', productCategoryRouter);
-
-    app.use(systemConfig.preFixAdmin + '/roles', roleRouter);
-
-    app.use(systemConfig.preFixAdmin + '/accounts', accountRouter);
-
+    app.use(
+        systemConfig.preFixAdmin + '/dashboard',
+        authMiddleware.requireAuth,
+        dashboardRouter
+    );
+    app.use(
+        systemConfig.preFixAdmin + '/products', 
+        authMiddleware.requireAuth,
+        productRouter
+    );
+    app.use(
+        systemConfig.preFixAdmin + '/product-category', 
+        authMiddleware.requireAuth,
+        productCategoryRouter
+    );
+    app.use(
+        systemConfig.preFixAdmin + '/roles', 
+        authMiddleware.requireAuth,
+        roleRouter
+    );
+    app.use(
+        systemConfig.preFixAdmin + '/accounts', 
+        authMiddleware.requireAuth,
+        accountRouter,
+    );
     app.use(systemConfig.preFixAdmin + '/auth', authRouter);
 };
