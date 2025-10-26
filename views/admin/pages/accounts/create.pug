@@ -1,10 +1,13 @@
 extends ../../layouts/default.pug
+include ../../mixins/alert.pug
 
 block main
     h1(class="mb-4") Cập nhật tài khoản
+    
+    +alert-error(5000)
 
     form(
-        action=`${preFixAdmin}/users/update`
+        action=`${preFixAdmin}/accounts/create`
         method="POST"
         enctype="multipart/form-data"
     )
@@ -15,8 +18,6 @@ block main
                 class="form-control"
                 id="fullName"
                 name="fullName"
-                placeholder="Le Van A"
-                value=""
                 required
             )
 
@@ -27,8 +28,6 @@ block main
                 class="form-control"
                 id="email"
                 name="email"
-                placeholder="levana@gmail.com"
-                value=""
                 required
             )
 
@@ -39,8 +38,6 @@ block main
                 class="form-control"
                 id="password"
                 name="password"
-                placeholder="••••••"
-                value=""
             )
 
         div(class="form-group mt-3")
@@ -50,29 +47,39 @@ block main
                 class="form-control"
                 id="phone"
                 name="phone"
-                placeholder="0123456789"
-                value=""
             )
 
-        div(class="form-group mt-3")
+        // Avatar (upload image)
+        div(
+            class="form-group mt-3"
+            upload-image
+        )
             label(for="avatar") Avatar
-            input(
-                type="file"
-                class="form-control"
-                id="avatar"
-                name="avatar"
+            div(class="d-flex align-items-center gap-2")
+                input(
+                    type="file"
+                    class="form-control-file"
+                    id="avatar"
+                    name="avatar"
+                    accept="image/*"
+                    upload-image-input
+                )
+            img(
+                src=""
+                class="image-preview mt-2"
+                upload-image-preview
             )
 
         div(class="form-group mt-3")
-            label(for="role") Phân quyền
+            label(for="role_id") Phân quyền
             select(
                 class="form-control"
-                id="role"
-                name="role"
+                id="role_id"
+                name="role_id"
             )
                 option(value="") -- Chọn quyền --
-                option(value="admin") Quản trị viên
-                option(value="editor") Quản lý nội dung
+                each role in roles 
+                    option(value=role.id) #{role.title}
 
         div(class="form-group mt-3")
             label Trạng thái
