@@ -1,0 +1,82 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+block main
+    h1(class="mb-4 font-weight-bold") Cập nhật thông tin cá nhân
+
+    +alert-success(5000)
+    +alert-error(5000)
+
+    form(
+        action=`${preFixAdmin}/my-account/edit?_method=PATCH`
+        method="POST"
+        enctype="multipart/form-data"
+        class="w-50"
+    )
+        // --- Họ tên
+        div(class="form-group mb-3")
+            label(for="fullName") Họ tên *
+            input#fullName.form-control(
+                type="text"
+                name="fullName"
+                required
+                value=user.fullName
+                placeholder="Nhập họ tên"
+            )
+
+        // --- Email
+        div(class="form-group mb-3")
+            label(for="email") Email *
+            input#email.form-control(
+                type="email"
+                name="email"
+                required
+                value=user.email
+                placeholder="Nhập email"
+            )
+
+        // --- Mật khẩu
+        div(class="form-group mb-3")
+            label(for="password") Mật khẩu
+            input#password.form-control(
+                type="password"
+                name="password"
+            )
+
+        // --- Số điện thoại
+        div(class="form-group mb-3")
+            label(for="phone") Số điện thoại
+            input#phone.form-control(
+                type="text"
+                name="phone"
+                value=user.phone
+                placeholder="Nhập số điện thoại"
+            )
+
+        // --- Avatar
+        div(
+            class="form-group"
+            upload-image
+        )
+            label(for="avatar") Ảnh
+            div(class="d-flex align-items-center gap-2")
+                input(
+                    type="file"
+                    class="form-control-file"
+                    id="avatar"
+                    name="avatar"
+                    accept="image/*"
+                    upload-image-input
+                )
+                span(
+                    close-image
+                    style="cursor:pointer; font-weight:bold;"
+                ) 
+            img(
+            src=user.avatar || ""
+            class="image-preview"
+            upload-image-preview
+            )
+
+        // --- Nút cập nhật
+        button(type="submit" class="btn btn-primary") Cập nhật

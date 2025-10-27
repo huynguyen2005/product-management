@@ -1,17 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../../controllers/admin/account.controller');
+const controller = require('../../controllers/admin/my-account.controller');
 const multer  = require('multer');
 const upload = multer(); 
 const uploadCloud = require('../../middlewares/admin/uploadCloud.middleware');
 
 
 router.get('/', controller.index);
-router.get('/create', controller.create);
-router.post('/create', 
+router.get('/edit', controller.edit);
+router.patch('/edit', 
     upload.single('avatar'),
     uploadCloud.upload,
-    controller.createAccount
+    controller.editMyAccount
 );
 
 module.exports = router;

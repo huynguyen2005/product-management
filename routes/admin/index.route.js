@@ -4,6 +4,7 @@ const productCategoryRouter = require('./product-category.route');
 const roleRouter = require('./role.route');
 const accountRouter = require('./account.route');
 const authRouter = require('./auth.route');
+const myAccountRouter = require('./my-account.route');
 const systemConfig = require('../../config/system');
 const authMiddleware = require('../../middlewares/admin/auth.middleware');
 
@@ -33,6 +34,11 @@ module.exports = (app) => {
         systemConfig.preFixAdmin + '/accounts', 
         authMiddleware.requireAuth,
         accountRouter,
+    );
+    app.use(
+        systemConfig.preFixAdmin + '/my-account', 
+        authMiddleware.requireAuth,
+        myAccountRouter,
     );
     app.use(systemConfig.preFixAdmin + '/auth', authRouter);
 };
