@@ -22,13 +22,27 @@ const productSchema = new mongoose.Schema({
         slug: "title", //san-pham-1
         unique: true
     },
+    createBy: {
+        account_id: String,
+        createAt: {
+            type: Date,
+            default: Date.now
+        }
+    },
+    deleteBy: {
+        account_id: String,
+        deleteAt: Date
+    },
+    updateBy: [
+        {
+            account_id: String,
+            updateAt: Date
+        }
+    ],
     deleted: {
         type: Boolean,
         default: false
-    },
-    deletedAt: Date
-}, {
-    timestamps: true
+    }
 }); //Tạo mới 1 cái bộ khung, khuôn mẫu 
 
 const Product = mongoose.model('Product', productSchema, "products"); //Khởi tạo nó

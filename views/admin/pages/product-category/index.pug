@@ -8,33 +8,34 @@ include ../../mixins/sort.pug
 include ../../mixins/table-tree.pug
 
 block main
-    
-    +alert-success("5000")
+    if(role.permissions.includes("products-category_view"))
+        +alert-success("5000")
 
-    h2 Danh mục sản phẩm
-    
-    .card.mb-3
-        .card-header Danh sách
-        .card-body
-            .row 
-                .col-4
-                    a(
-                        href=`${preFixAdmin}/product-category/create`
-                        class="btn btn-outline-success"
-                    ) + Thêm mới
-            table(
-                class = "table table-hover table-sm"
-                checkbox-multi  
-            )
-                thead
-                    tr
-                        th 
-                            input(type="checkbox" name="checkall")
-                        th STT
-                        th Hình ảnh
-                        th Tiêu đề
-                        th Vị trí
-                        th Trạng thái
-                        th Hành động
-                tbody
-                    +table-tree(categories)
+        h2 Danh mục sản phẩm
+        
+        .card.mb-3
+            .card-header Danh sách
+            .card-body
+                .row 
+                    .col-4
+                        if(role.permissions.includes("products-category_create"))
+                            a(
+                                href=`${preFixAdmin}/product-category/create`
+                                class="btn btn-outline-success"
+                            ) + Thêm mới
+                table(
+                    class = "table table-hover table-sm"
+                    checkbox-multi  
+                )
+                    thead
+                        tr
+                            th 
+                                input(type="checkbox" name="checkall")
+                            th STT
+                            th Hình ảnh
+                            th Tiêu đề
+                            th Vị trí
+                            th Trạng thái
+                            th Hành động
+                    tbody
+                        +table-tree(categories)
