@@ -2,20 +2,24 @@ extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 
 block main
-  .container.my-4
+  .container.my-5
     .row
       .col-12
         +box-head("Chi tiết sản phẩm")
 
-    .row
+    .row.g-4.align-items-start
+      // --- Cột trái: hình ảnh sản phẩm
       .col-md-6
         .product-detail-image
           img(src=product.thumbnail, alt=product.title)
 
+      // --- Cột phải: thông tin sản phẩm
       .col-md-6
         .product-detail-info
+          h2.product-title Danh mục : #{product.category}
           h2.product-title #{product.title}
 
+          // --- Giá
           if product.priceNew
             .price
               span.inner-price-new #{product.priceNew}đ
@@ -24,27 +28,47 @@ block main
               if product.discountPercentage
                 span.inner-discount -#{product.discountPercentage}%
 
+          // --- Trạng thái
           if product.status
-            .status
-              span Trạng thái: 
+            .status.mt-2
+              span.label Trạng thái: 
               if product.status === "active"
-                span.badge.badge-success Hoạt động
+                span.badge.bg-success Hoạt động
               else
-                span.badge.badge-danger Dừng hoạt động
+                span.badge.bg-danger Dừng hoạt động
 
+          // --- Tồn kho
           if product.stock
-            .stock
-              span Còn lại: 
+            .stock.mt-2
+              span.label Còn lại: 
               b #{product.stock}
 
+          // --- Vị trí
           if product.position
-            .position
-              span Vị trí: 
+            .position.mt-2
+              span.label Vị trí: 
               b #{product.position}
 
+          // --- Mô tả
           if product.description
-            .description.mt-3
+            .description.mt-4
               h4 Mô tả sản phẩm
-              p #{product.description}
+              p !{product.description}
 
-    script(src="/admin/js/product.js")
+          // --- Form thêm vào giỏ hàng
+          .actions.mt-4
+            form(action="/cart/add" method="POST" class="add-to-cart-form")
+              input(type="hidden" name="product_id" value=product._id)
+              .d-flex.align-items-center.gap-3
+                label(for="quantity" class="fw-semibold mb-0") Số lượng:
+                input#quantity.form-control(
+                  type="number",
+                  name="quantity",
+                  value="1",
+                  min="1",
+                  max=product.stock,
+                  style="width:100px;"
+                )
+              button.btn.btn-primary.btn-add-cart.mt-3(type="submit")
+                i.bi.bi-cart-plus.me-2
+                | Thêm vào giỏ hàng

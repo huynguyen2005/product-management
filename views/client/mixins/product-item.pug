@@ -1,0 +1,23 @@
+mixin product-item(item)
+  .col-4.mb-3
+    .product-item
+      // 🏷️ Hiển thị nhãn Nổi bật nếu có
+      if item.featured == 1
+        span.badge-featured Nổi bật
+
+      // 🖼️ Ảnh sản phẩm
+      .inner-image
+        img(src=item.thumbnail, alt=item.title)
+
+      // 📦 Nội dung sản phẩm
+      .inner-content
+        h3.inner-title
+          a(href=`/products/detail/${item.slug}`)= item.title
+
+        // 💰 Giá sản phẩm
+        .inner-price
+          span.inner-price-new #{item.priceNew}đ
+          if item.price
+            span.inner-price-old #{item.price}đ
+          if item.discountPercentage
+            span.inner-discount -#{item.discountPercentage}%

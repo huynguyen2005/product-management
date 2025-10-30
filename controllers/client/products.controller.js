@@ -1,15 +1,15 @@
 const Product = require('../../models/product.model');
+const ProductCategory = require('../../models/product-category.model');
+const productHelper = require('../../helpers/product');
+const subCategoryHelper = require('../../helpers/subCategory');
 
-// [GET] /product
+// [GET] /products
 module.exports.index = async (req, res) => {
 
-    const productList = await Product.find({status: "active", deleted: "false"})
+    const products = await Product.find({status: "active", deleted: "false"})
                                     .sort({position : "desc"});
 
-    const newProductList = productList.map(item => {
-        item.priceNew = (item.price - (item.price*item.discountPercentage)/100).toFixed(0);
-        return item;
-    });
+    const newProductList = productHelper.newProduct(products);
 
     // console.log(productList);
 
@@ -19,19 +19,50 @@ module.exports.index = async (req, res) => {
     });
 };
 
+//[GET] /products/:slugCategory
+module.exports.category = async (req, res) => {
+    const category = await ProductCategory.findOne({
+        slug: req.params.slugCategory, 
+        deleted: false, 
+        status: "active"
+    });
+    
+    //Lấy ra mảng các id danh mục thuộc danh mục cha 
+    const subIdCategory = (await subCategoryHelper.subCategory(category.id)).map(item => item.id);
+    //End
 
-//[GET] /products/:slug
+    const products = await Product.find({
+        product_category_id: { $in : [category.id, ...subIdCategory]},
+        status: "active",
+        deleted: false
+    }).sort({position: "desc"});
+
+    const newProductList = productHelper.newProduct(products);
+
+    res.render('client/pages/products/index', {
+        title: category.title,
+        products : newProductList
+    });
+}
+
+//[GET] /products/detail/:slugProduct
 module.exports.detail = async (req, res) => {
     try{
         const find = {
-            slug: req.params.slug,
+            slug: req.params.slugProduct,
             deleted: false,
             status: "active"
         };
 
         const product = await Product.findOne(find);
 
-        product.priceNew = (product.price - (product.price*product.discountPercentage)/100).toFixed(0);
+        if(!product){
+            return;
+        }
+
+        productHelper.newPriceProduct(product);
+        const category = await ProductCategory.findOne({_id: product.product_category_id, deleted: false});
+        product.category = category.title;
 
         res.render("client/pages/products/detail", {
             title: product.title,

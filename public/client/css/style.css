@@ -1,255 +1,224 @@
-/* ===== HEADER CHÍNH ===== */
-header.header {
-  background-color: #ffffff;
-  border-bottom: 1px solid #e0e0e0;
-  padding: 12px 0;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-}
+/* ========================= */
+/* ===== MENU CHÍNH ======== */
+/* ========================= */
 
-.header .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.inner-logo img {
-  height: 50px;
-  transition: transform 0.2s ease;
-  display: block;
-}
-
-.inner-logo img:hover {
-  transform: scale(1.05);
-}
-
-/* ===== MENU CHÍNH ===== */
 .inner-menu ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   align-items: center;
-  gap: 24px;
-  justify-content: flex-end;
+  gap: 28px;
 }
 
-.inner-menu ul li {
+.inner-menu li {
   position: relative;
 }
 
-.inner-menu ul li a {
+.inner-menu a {
   text-decoration: none;
-  color: #222;
-  font-weight: 500;
-  font-size: 16px;
-  transition: color 0.25s ease;
-}
-
-.inner-menu ul li:hover > a {
-  color: #007bff;
-}
-
-/* ===== SUBMENU ===== */
-.sub-menu {
-  position: relative;
-}
-
-.dropdown {
-  position: absolute;
-  top: 110%;
-  left: 0;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.1);
-  padding: 8px 0;
-  min-width: 200px;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(10px);
-  transition: all 0.25s ease;
-  z-index: 10;
-}
-
-.sub-menu:hover > .dropdown {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.dropdown li {
-  position: relative;
-}
-
-.dropdown li a {
-  display: block;
-  padding: 10px 16px;
   color: #333;
-  font-size: 15px;
-  white-space: nowrap;
-  transition: background 0.2s, color 0.2s;
+  font-weight: 500;
+  padding: 8px 12px;
+  display: block;
+  transition: all 0.3s ease;
 }
 
-.dropdown li a:hover {
-  background-color: #f5f5f5;
+.inner-menu a:hover {
   color: #007bff;
 }
 
-/* ===== SUBMENU CẤP 2+ ===== */
-.dropdown .has-children > .dropdown {
+/* --- SUBMENU CẤP 1 --- */
+ul.dropdown {
+  list-style: none;
+  margin: 0;
+  padding: 8px 0;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 200px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  display: none;
+  z-index: 999;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* --- Hover cha -> hiện con --- */
+li:hover > ul.dropdown {
+  display: block;
+}
+
+/* --- ITEM TRONG SUBMENU --- */
+ul.dropdown li {
+  position: relative;
+}
+
+ul.dropdown li a {
+  padding: 8px 14px;
+  font-size: 15px;
+  color: #333;
+  white-space: nowrap;
+  transition: all 0.25s ease;
+}
+
+ul.dropdown li a:hover {
+  background: #f4f4f4;
+  color: #007bff;
+}
+
+/* --- SUBMENU CẤP 2+ (mở ngang) --- */
+ul.dropdown .has-children > ul.dropdown {
   top: 0;
   left: 100%;
-  transform: translateX(10px);
-  opacity: 0;
-  visibility: hidden;
 }
 
-.dropdown .has-children:hover > .dropdown {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(0);
-}
-
-/* ===== ICON MŨI TÊN ===== */
-.sub-menu > a::after,
+/* --- Mũi tên submenu --- */
 .has-children > a::after {
-  content: " ▼";
+  content: "▸";
+  float: right;
   font-size: 12px;
-  color: #888;
+  color: #999;
 }
 
-/* ===== FOOTER ===== */
-.footer {
-  background-color: #f8f9fa;
-  border-top: 1px solid #ddd;
-  padding: 15px 0;
-  margin-top: 30px;
-  color: #555;
-  font-size: 14px;
+/* --- Hiệu ứng hover cha có submenu --- */
+li.has-children:hover > a {
+  color: #007bff;
 }
 
-.footer .text-center {
-  text-align: center;
-}
+/* ========================= */
+/* ===== NHÃN NỔI BẬT ===== */
+/* ========================= */
 
-/* ===== PRODUCT ITEM ===== */
 .product-item {
-  display: block;
-  text-decoration: none;
-  color: inherit;
+  position: relative;
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 15px;
-  text-align: center;
+  overflow: hidden;
   background: #fff;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 100%;
+  text-align: center;
+  transition: all 0.3s ease;
 }
 
 .product-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
-  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
 }
 
-.product-item .inner-image img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  margin-bottom: 12px;
+/* --- Nhãn "Nổi bật" --- */
+.badge-featured {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: linear-gradient(90deg, #ff6b6b, #ff4757);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
   border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
 }
 
-.product-item .inner-title {
-  font-size: 16px;
+/* --- Ảnh sản phẩm --- */
+.inner-image img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-bottom: 1px solid #eee;
+}
+
+/* --- Tên sản phẩm --- */
+.inner-title {
+  margin: 10px 0 6px;
   font-weight: 600;
-  margin-bottom: 8px;
+  font-size: 16px;
   color: #333;
 }
 
+/* --- Giá và giảm giá --- */
 .inner-price-new {
-  font-size: 18px;
-  font-weight: bold;
   color: #e74c3c;
+  font-size: 17px;
+  font-weight: 700;
 }
 
 .inner-price-old {
   font-size: 14px;
   color: #888;
   text-decoration: line-through;
-  margin-left: 6px;
+  margin-left: 5px;
 }
 
 .inner-discount {
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 600;
   color: #27ae60;
-  font-weight: 500;
-  margin-left: 6px;
+  margin-left: 4px;
 }
 
-/* ===== PRODUCT DETAIL ===== */
+
+
+/* ========== ẢNH SẢN PHẨM ========== */
 .product-detail-image img {
   width: 100%;
-  max-height: 400px;
+  max-height: 450px;
   object-fit: cover;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
+/* ========== THÔNG TIN SẢN PHẨM ========== */
 .product-detail-info {
-  padding: 15px;
+  padding: 10px 20px;
 }
 
-.product-detail-info .product-title {
+.product-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 20px;
+}
+
+.price {
+  margin-bottom: 15px;
+}
+
+.inner-price-new {
   font-size: 24px;
   font-weight: 700;
-  margin-bottom: 15px;
-  color: #333;
-}
-
-.product-detail-info .price {
-  margin-bottom: 12px;
-}
-
-.product-detail-info .inner-price-new {
-  font-size: 22px;
-  font-weight: bold;
   color: #e74c3c;
-  margin-right: 8px;
+  margin-right: 10px;
 }
 
-.product-detail-info .inner-price-old {
+.inner-price-old {
   font-size: 16px;
-  color: #888;
+  color: #999;
   text-decoration: line-through;
-  margin-right: 8px;
+  margin-right: 10px;
 }
 
-.product-detail-info .inner-discount {
+.inner-discount {
   font-size: 16px;
   color: #27ae60;
-  font-weight: 500;
+  font-weight: 600;
 }
 
-.product-detail-info .status,
-.product-detail-info .stock,
-.product-detail-info .position {
-  margin-bottom: 10px;
+.status, .stock, .position {
   font-size: 15px;
+  color: #444;
 }
 
-.product-detail-info .description {
+.description {
   margin-top: 20px;
 }
 
-.product-detail-info .description h4 {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.product-detail-info .description p {
-  font-size: 15px;
-  color: #444;
+.description p {
+  color: #555;
   line-height: 1.6;
 }
+
+/* ========== FORM THÊM VÀO GIỎ ===*
+
