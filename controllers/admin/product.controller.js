@@ -55,9 +55,9 @@ module.exports.index = async (req, res) => {
         if (user) {
             product.userFullName = user.fullName;
         }
-        
+
         const updateBy = product.updateBy.slice(-1)[0];
-        if(updateBy){
+        if (updateBy) {
             const userUpdeted = await Account.findOne({ _id: updateBy.account_id }).select('-password');
             updateBy.userFullName = userUpdeted.fullName;
         }
@@ -89,7 +89,7 @@ module.exports.changeStatus = async (req, res) => {
         });
 
         req.flash('success', 'Cập nhật trạng thái sản phẩm thành công');
-    }catch(e){
+    } catch (e) {
         req.flash('error', 'Cập nhật trạng thái sản phẩm thất bại');
     }
 
@@ -113,11 +113,11 @@ module.exports.changeMulti = async (req, res) => {
     }
     switch (type) {
         case "active":
-            await Product.updateMany({ _id: { $in: ids } }, { status: "active", $push: {updateBy: updateBy} });
+            await Product.updateMany({ _id: { $in: ids } }, { status: "active", $push: { updateBy: updateBy } });
             req.flash('success', 'Cập nhật trạng thái sản phẩm thành công');
             break;
         case "inactive":
-            await Product.updateMany({ _id: { $in: ids } }, { status: "inactive", $push: {updateBy: updateBy} });
+            await Product.updateMany({ _id: { $in: ids } }, { status: "inactive", $push: { updateBy: updateBy } });
             req.flash('success', 'Cập nhật trạng thái sản phẩm thành công');
             break;
         case "delete-all":
@@ -130,7 +130,7 @@ module.exports.changeMulti = async (req, res) => {
         case "change-position":
             for (let item of ids) {
                 const [id, position] = item.split('-');
-                await Product.updateOne({ _id: id }, { position: parseInt(position), $push: {updateBy: updateBy}});
+                await Product.updateOne({ _id: id }, { position: parseInt(position), $push: { updateBy: updateBy } });
                 req.flash('success', `Đã đổi vị trí thành công ${ids.length} sản phẩm`);
             }
         default:
@@ -173,26 +173,30 @@ module.exports.create = async (req, res) => {
 
 //[POST] /admin/products/create
 module.exports.createProduct = async (req, res) => {
+    if (res.locals.role.permissions.includes("products_create")) {
+        req.body.price = parseInt(req.body.price);
+        req.body.discountPercentage = parseInt(req.body.discountPercentage);
+        req.body.stock = parseInt(req.body.stock);
 
-    req.body.price = parseInt(req.body.price);
-    req.body.discountPercentage = parseInt(req.body.discountPercentage);
-    req.body.stock = parseInt(req.body.stock);
+        if (req.body.position) {
+            req.body.position = parseInt(req.body.position);
+        } else {
+            const countProduct = await Product.countDocuments();
+            req.body.position = countProduct + 1;
+        }
 
-    if (req.body.position) {
-        req.body.position = parseInt(req.body.position);
-    } else {
-        const countProduct = await Product.countDocuments();
-        req.body.position = countProduct + 1;
+        const createBy = {
+            account_id: res.locals.user.id,
+        }
+        req.body.createBy = createBy;
+        const product = new Product(req.body); //Tạo mới 1 product nhưng chưa lưu
+        await product.save(); //phương thức save() để lưu vào db
+
+        res.redirect(`${systemConfig.preFixAdmin}/products`);
     }
-
-    const createBy = {
-        account_id: res.locals.user.id,
+    else{
+        return;
     }
-    req.body.createBy = createBy;
-    const product = new Product(req.body); //Tạo mới 1 product nhưng chưa lưu
-    await product.save(); //phương thức save() để lưu vào db
-
-    res.redirect(`${systemConfig.preFixAdmin}/products`);
 }
 
 
@@ -253,7 +257,7 @@ module.exports.detail = async (req, res) => {
             deleted: false,
             _id: req.params.id
         }
-        
+
         const product = await Product.findOne(find);
         res.render("admin/pages/products/detail", {
             pageTitle: product.title,
