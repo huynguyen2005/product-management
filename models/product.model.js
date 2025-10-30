@@ -17,6 +17,7 @@ const productSchema = new mongoose.Schema({
     thumbnail: String,
     status: String,
     position: Number,
+    featured : String,
     slug: { 
         type: String, 
         slug: "title", //san-pham-1
@@ -42,7 +43,7 @@ const productSchema = new mongoose.Schema({
     deleted: {
         type: Boolean,
         default: false
-    }
+    },
 }); //Tạo mới 1 cái bộ khung, khuôn mẫu 
 
 const Product = mongoose.model('Product', productSchema, "products"); //Khởi tạo nó
