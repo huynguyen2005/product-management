@@ -1,73 +1,155 @@
-/* Header chính */
-.header {
-  background-color: #fff;          /* nền trắng */
-  border-bottom: 1px solid #ddd;   /* gạch ngang dưới */
-  padding: 10px 0;                 /* khoảng cách trên dưới */
+/* ===== HEADER CHÍNH ===== */
+header.header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
-/* Logo */
+.header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .inner-logo img {
-  max-height: 50px;     /* logo không quá to */
+  height: 50px;
+  transition: transform 0.2s ease;
   display: block;
 }
 
-/* Menu */
+.inner-logo img:hover {
+  transform: scale(1.05);
+}
+
+/* ===== MENU CHÍNH ===== */
 .inner-menu ul {
-  list-style: none;     /* bỏ dấu chấm */
+  list-style: none;
   margin: 0;
   padding: 0;
-  display: flex;        /* hiển thị ngang */
-  justify-content: flex-end; /* đẩy về bên phải */
-  gap: 20px;            /* khoảng cách giữa các mục */
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  justify-content: flex-end;
+}
+
+.inner-menu ul li {
+  position: relative;
 }
 
 .inner-menu ul li a {
-  text-decoration: none; /* bỏ gạch chân */
-  color: #333;           /* màu chữ */
+  text-decoration: none;
+  color: #222;
   font-weight: 500;
-  transition: color 0.3s ease;
+  font-size: 16px;
+  transition: color 0.25s ease;
 }
 
-.inner-menu ul li a:hover {
-  color: #007bff;        /* đổi màu khi hover (xanh Bootstrap) */
+.inner-menu ul li:hover > a {
+  color: #007bff;
 }
 
+/* ===== SUBMENU ===== */
+.sub-menu {
+  position: relative;
+}
 
-/* Footer chính */
+.dropdown {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+  padding: 8px 0;
+  min-width: 200px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.25s ease;
+  z-index: 10;
+}
+
+.sub-menu:hover > .dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown li {
+  position: relative;
+}
+
+.dropdown li a {
+  display: block;
+  padding: 10px 16px;
+  color: #333;
+  font-size: 15px;
+  white-space: nowrap;
+  transition: background 0.2s, color 0.2s;
+}
+
+.dropdown li a:hover {
+  background-color: #f5f5f5;
+  color: #007bff;
+}
+
+/* ===== SUBMENU CẤP 2+ ===== */
+.dropdown .has-children > .dropdown {
+  top: 0;
+  left: 100%;
+  transform: translateX(10px);
+  opacity: 0;
+  visibility: hidden;
+}
+
+.dropdown .has-children:hover > .dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+/* ===== ICON MŨI TÊN ===== */
+.sub-menu > a::after,
+.has-children > a::after {
+  content: " ▼";
+  font-size: 12px;
+  color: #888;
+}
+
+/* ===== FOOTER ===== */
 .footer {
-  background-color: #f8f9fa;   /* xám nhạt (màu Bootstrap bg-light) */
-  border-top: 1px solid #ddd;  /* gạch trên */
-  padding: 15px 0;             /* khoảng cách trên dưới */
-  margin-top: 30px;            /* cách nội dung phía trên */
-  color: #555;                 /* màu chữ */
+  background-color: #f8f9fa;
+  border-top: 1px solid #ddd;
+  padding: 15px 0;
+  margin-top: 30px;
+  color: #555;
   font-size: 14px;
 }
 
-/* Canh giữa nội dung */
 .footer .text-center {
   text-align: center;
 }
 
-
-
+/* ===== PRODUCT ITEM ===== */
 .product-item {
-  display: block;               /* bắt buộc để a behave như div */
-  text-decoration: none;        /* bỏ gạch chân */
-  color: inherit;               /* giữ nguyên màu chữ bên trong */
-  
+  display: block;
+  text-decoration: none;
+  color: inherit;
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 15px;
   text-align: center;
   background: #fff;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 100%; /* để các card bằng chiều cao nhau */
+  height: 100%;
 }
 
 .product-item:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 16px rgba(0,0,0,0.1);
-  text-decoration: none; /* khi hover cũng không gạch chân */
+  text-decoration: none;
 }
 
 .product-item .inner-image img {
@@ -88,7 +170,7 @@
 .inner-price-new {
   font-size: 18px;
   font-weight: bold;
-  color: #e74c3c; /* đỏ */
+  color: #e74c3c;
 }
 
 .inner-price-old {
@@ -100,13 +182,12 @@
 
 .inner-discount {
   font-size: 14px;
-  color: #27ae60; /* xanh lá */
+  color: #27ae60;
   font-weight: 500;
   margin-left: 6px;
 }
 
-
-
+/* ===== PRODUCT DETAIL ===== */
 .product-detail-image img {
   width: 100%;
   max-height: 400px;
