@@ -2,13 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 
-const controller = require('../../controllers/client/products.controller');
+const controller = require('../../controllers/client/search.controller');
 router.get('/', controller.index);
-
-router.get('/:slugCategory', controller.category);
-
-router.get('/detail/:slugProduct', controller.detail);
-
 
 //Xuất router ra để file cha có thể sử dụng
 module.exports = router;

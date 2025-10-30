@@ -222,3 +222,84 @@ li.has-children:hover > a {
 
 /* ========== FORM THÊM VÀO GIỎ ===*
 
+
+/* ========== HEADER ========== */
+header.header {
+  background: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 10px 0;
+}
+
+.inner-logo img {
+  height: 50px;
+  display: block;
+}
+
+/* ========== MENU ========== */
+.inner-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 24px;
+}
+
+.inner-menu li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.inner-menu li a:hover {
+  color: #007bff;
+}
+
+/* ========== FORM TÌM KIẾM ========== */
+form {
+  display: flex;
+  align-items: center;
+}
+
+form .form-control {
+  flex: 1;
+  border-radius: 6px;
+}
+
+form button {
+  white-space: nowrap;
+  border-radius: 6px;
+}
+
+/* ========== SUBMENU ========== */
+ul.dropdown {
+  list-style: none;
+  margin: 0;
+  padding: 8px 0;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 200px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  display: none;
+  z-index: 999;
+}
+
+li:hover > ul.dropdown {
+  display: block;
+}
+
+ul.dropdown li a {
+  display: block;
+  padding: 8px 14px;
+  color: #333;
+  white-space: nowrap;
+}
+
+ul.dropdown li a:hover {
+  background: #f4f4f4;
+  color: #007bff;
+}
+

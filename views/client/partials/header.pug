@@ -2,18 +2,31 @@ include ../mixins/sub-menu.pug
 
 header.header
   .container
-    .row.align-items-center
-      .col-3
+    .row.align-items-center.justify-content-between
+      // --- Logo chiếm 2 cột
+      .col-2
         .inner-logo
           a(href="/")
-            img(src="/images/logo.svg", alt="Logo")
+            img(src="/client/images/logo.svg", alt="Logo")
 
-      .col-9
+      // --- Form tìm kiếm chiếm 5 cột (ở giữa)
+      .col-5
+        form(action="/search", method="GET")
+          .form-group.d-flex.mb-0
+            input.form-control(
+              type="text",
+              placeholder="Nhập từ khóa...",
+              name="keyword"
+            )
+            button.btn.btn-primary.ms-2(type="submit") Tìm
+
+      // --- Menu chính chiếm 5 cột (bên phải)
+      .col-5
         .inner-menu
-          ul
+          ul.d-flex.justify-content-end.align-items-center.mb-0
             li
               a(href="/") Trang chủ
-            li(class="sub-menu")
+            li.sub-menu.position-relative
               - const pathProduct = "/products"
               a(href=pathProduct) Sản phẩm
               +sub-menu(layoutProductsCategory, pathProduct)
