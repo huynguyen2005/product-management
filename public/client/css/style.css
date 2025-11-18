@@ -29,7 +29,7 @@
 }
 
 /* --- SUBMENU CẤP 1 --- */
-ul.dropdown {
+.inner-menu li > ul.dropdown {
   list-style: none;
   margin: 0;
   padding: 8px 0;
@@ -40,13 +40,13 @@ ul.dropdown {
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 6px;
-  display: none;
+  display: none; /* Ẩn mặc định */
   z-index: 999;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-/* --- Hover cha -> hiện con --- */
-li:hover > ul.dropdown {
+/* --- Hover li cấp 1 -> hiện submenu cấp 1 --- */
+.inner-menu li:hover > ul.dropdown {
   display: block;
 }
 
@@ -72,6 +72,12 @@ ul.dropdown li a:hover {
 ul.dropdown .has-children > ul.dropdown {
   top: 0;
   left: 100%;
+  display: none; /* ẩn mặc định */
+}
+
+/* --- Hover cha cấp 2+ -> hiện submenu --- */
+ul.dropdown .has-children:hover > ul.dropdown {
+  display: block;
 }
 
 /* --- Mũi tên submenu --- */
@@ -86,6 +92,7 @@ ul.dropdown .has-children > ul.dropdown {
 li.has-children:hover > a {
   color: #007bff;
 }
+
 
 /* ========================= */
 /* ===== NHÃN NỔI BẬT ===== */
@@ -122,7 +129,6 @@ li.has-children:hover > a {
   box-shadow: 0 2px 5px rgba(0,0,0,0.15);
 }
 
-/* --- Ảnh sản phẩm --- */
 .inner-image img {
   width: 100%;
   height: 220px;
@@ -130,7 +136,6 @@ li.has-children:hover > a {
   border-bottom: 1px solid #eee;
 }
 
-/* --- Tên sản phẩm --- */
 .inner-title {
   margin: 10px 0 6px;
   font-weight: 600;
@@ -138,7 +143,6 @@ li.has-children:hover > a {
   color: #333;
 }
 
-/* --- Giá và giảm giá --- */
 .inner-price-new {
   color: #e74c3c;
   font-size: 17px;
@@ -158,8 +162,6 @@ li.has-children:hover > a {
   color: #27ae60;
   margin-left: 4px;
 }
-
-
 
 /* ========== ẢNH SẢN PHẨM ========== */
 .product-detail-image img {
@@ -220,9 +222,6 @@ li.has-children:hover > a {
   line-height: 1.6;
 }
 
-/* ========== FORM THÊM VÀO GIỎ ===*
-
-
 /* ========== HEADER ========== */
 header.header {
   background: #fff;
@@ -255,51 +254,224 @@ header.header {
   color: #007bff;
 }
 
-/* ========== FORM TÌM KIẾM ========== */
-form {
+/* ========== FORM TÌM KIẾM TRONG HEADER ========== */
+header.header form {
   display: flex;
   align-items: center;
 }
 
-form .form-control {
+header.header form .form-control {
   flex: 1;
   border-radius: 6px;
 }
 
-form button {
+header.header form button {
   white-space: nowrap;
   border-radius: 6px;
 }
 
-/* ========== SUBMENU ========== */
-ul.dropdown {
-  list-style: none;
-  margin: 0;
-  padding: 8px 0;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  min-width: 200px;
+/* ========== FORM LOGIN/REGISTER CHUẨN BOOTSTRAP (KHÔNG FLEX TOÀN FORM) ========== */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+/* ========== CHAT BOX ========== */
+.chat {
   background: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
   border: 1px solid #ddd;
-  border-radius: 6px;
-  display: none;
-  z-index: 999;
 }
 
-li:hover > ul.dropdown {
-  display: block;
+.chat .inner-head {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
 }
 
-ul.dropdown li a {
-  display: block;
-  padding: 8px 14px;
+.chat .inner-body {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 5px;
+  max-height: 450px;
+  overflow-y: auto;
+}
+
+.chat .inner-incoming {
+  margin-bottom: 15px;
+}
+
+.chat .inner-incoming .inner-name {
+  font-weight: bold;
+  color: #ff5da0;
+  margin-bottom: 3px;
+}
+
+.chat .inner-incoming .inner-content {
+  background: #f7f7f7;
+  padding: 8px 12px;
+  border-radius: 10px;
+  display: inline-block;
+  max-width: 80%;
   color: #333;
-  white-space: nowrap;
 }
 
-ul.dropdown li a:hover {
-  background: #f4f4f4;
-  color: #007bff;
+.chat .inner-outgoing {
+  text-align: right;
+  margin-bottom: 15px;
 }
+
+.chat .inner-outgoing .inner-content {
+  background: #ff5da0;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 10px;
+  display: inline-block;
+  max-width: 80%;
+}
+
+.chat .inner-body .inner-images img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    background: #efefef;
+    padding: 10px;
+    margin: 0 5px 5px 0;
+    border-radius: 5px;
+}
+
+.chat .inner-body .inner-outgoing .inner-images {
+    margin-left: auto;
+    text-align: right;
+}
+
+.chat .inner-body .inner-outgoing .inner-images img {
+    margin: 0 5px 5px 0;
+}
+
+
+.chat .inner-foot {
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.chat .inner-form {
+  display: flex;
+  align-items: center;
+}
+
+.chat .inner-form input {
+  flex: 1;
+  height: 32px;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  padding: 0 10px;
+  outline: none;
+}
+
+.chat .inner-form button {
+  border-radius: 15px;
+  border: 1px solid #FE5DAA;
+  background: #FE5DAA;
+  color: #fff;
+  height: 32px;
+  padding: 0 10px;
+  cursor: pointer;
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+/* Emoji icon */
+.tooltip {
+  visibility: hidden;
+}
+
+.tooltip.shown {
+  visibility: visible;
+  opacity: 1;
+}
+/* End Emoji icon */
+
+
+
+/* ----- Box typing ----- */
+.box-typing {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 6px 0;
+}
+
+.box-typing .inner-name {
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 6px;
+}
+
+.box-typing .inner-dots {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.box-typing .inner-dots span {
+    width: 8px;
+    height: 8px;
+    background: #444;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 3px;
+    animation: blink 1s infinite;
+}
+
+/* Delay từng dấu chấm (như trong hình) */
+.box-typing .inner-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.box-typing .inner-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+/* Animation blink (đúng theo hình) */
+@keyframes blink {
+    0% {
+        opacity: 0.1;
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.1;
+    }
+}
+
+/* ----- End box-typing ----- */
 

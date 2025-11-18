@@ -32,5 +32,16 @@ header.header
               +sub-menu(layoutProductsCategory, pathProduct)
             li
               a(href="/about") Giới thiệu
-            li
-              a(href="/contact") Liên hệ
+            
+            if(user)
+              li
+                a(href="/chat") Chat
+              li
+                a(href="/user/infor") #{user.fullName}
+              li
+                a(href="user/logout") Đăng xuất
+            else
+              li
+                a(href="/user/login") Đăng nhập
+              li
+                a(href="/user/register") Đăng ký

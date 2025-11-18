@@ -5,6 +5,10 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const path = require('path');
 const moment = require('moment');
+
+const http = require('http');
+const { Server } = require('socket.io');
+
 require('dotenv').config();
 
 const routeClient = require('./routes/client/index.route');
@@ -18,6 +22,12 @@ database.connectDatabase();
 
 const app = express();
 const port = process.env.PORT;
+
+//Socket IO
+const server = http.createServer(app);
+const io = new Server(server);
+global._io = io;
+//End Socket IO
 
 //__dirname để lấy ra đường dẫn của project
 app.set('views', `${__dirname}/views`);
@@ -48,6 +58,6 @@ app.use('/tinymce',
 routeClient(app);
 routeAdmin(app);
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(port);
 });
