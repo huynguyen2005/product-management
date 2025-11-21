@@ -24,6 +24,19 @@ module.exports.loginPost = async (req, res) => {
         return res.redirect("/user/login"); 
     }
     res.cookie("tokenUser", exitEmail.tokenUser);
+    await User.updateOne({tokenUser: exitEmail.tokenUser}, {statusOnline: "online"});
+
+    const newUser = await User.findOne({ _id: exitEmail.id});
+
+    //socketio
+    _io.once("connection", (socket) => {
+        socket.broadcast.emit("SERVER_RETURN_STATUS_ONLINE", {
+            userId: newUser.id,
+            statusOnline: newUser.statusOnline
+        });
+    });
+    //End socketio
+
     res.redirect("/");
 }
 
@@ -49,7 +62,20 @@ module.exports.registerPost = async (req, res) => {
 }
 
 //[GET] /user/logout
-module.exports.logout = (req, res) => {
+module.exports.logout = async (req, res) => {
+    await User.updateOne({tokenUser: req.cookies.tokenUser}, {
+        statusOnline: "offline"
+    });
+    const user = await User.findOne({ _id: res.locals.user.id});
+
+    //socketio
+    _io.once("connection", (socket) => {
+        socket.broadcast.emit("SERVER_RETURN_STATUS_ONLINE", {
+            userId: user.id,
+            statusOnline: user.statusOnline
+        });
+    });
+    //End socketio
     res.clearCookie("tokenUser");
     res.redirect("/");
 }

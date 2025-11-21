@@ -1,0 +1,34 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/list-btn-users.pug
+
+block main
+    .container.my-3
+        +list-btn-users()
+        .row
+            .col-12
+                +box-head("Danh sách người dùng")
+        .row(data-no-friend=user.id)
+            each data in users
+                .col-6(data-user-in-no-friend=data.id)
+                    div(class="box-user")
+                        div(class="inner-avatar")
+                            img(
+                                src=(data.avatar ? data.avatar : "/client/images/logo.svg")
+                                alt=data.fullName
+                            )
+                        div(class="inner-info")
+                            div(class="inner-name") #{data.fullName}
+                            div(class="inner-buttons")
+                                button(
+                                    class="btn btn-sm btn-primary mr-1"
+                                    btn-add-friend=data.id
+                                ) Kết bạn
+                                button(
+                                    class="btn btn-sm btn-secondary mr-1"
+                                    btn-cancel-friend=data.id
+                                ) Hủy
+
+block script 
+    script(src="/client/js/user.js")
+        

@@ -1,0 +1,44 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/list-btn-users.pug
+
+block main
+    .container.my-3
+        +list-btn-users()
+        .row
+            .col-12
+                +box-head("Lời mời kết bạn")
+        .row(data-accept-friend=user.id)
+            each data in users
+                .col-6(data-user-in-accept-friend=data.id)
+                    div(class="box-user")
+                        div(class="inner-avatar")
+                            img(
+                                src=(data.avatar ? data.avatar : "/client/images/logo.svg")
+                                alt=data.fullName
+                            )
+                        div(class="inner-info")
+                            div(class="inner-name") #{data.fullName}
+                            div(class="inner-buttons")
+                                button(
+                                    class="btn btn-sm btn-primary mr-1"
+                                    btn-accept-friend=data.id
+                                ) Chấp nhận
+                                button(
+                                    class="btn btn-sm btn-secondary mr-1"
+                                    btn-refuse-friend=data.id
+                                ) Xóa
+                                button(
+                                    class="btn btn-sm btn-secondary mr-1"
+                                    btn-deleted-friend
+                                    disable
+                                ) Đã xóa
+                                button(
+                                    class="btn btn-sm btn-secondary mr-1"
+                                    btn-accepted-friend
+                                    disable
+                                ) Đã chấp nhận
+
+block script 
+    script(src="/client/js/user.js")
+        
