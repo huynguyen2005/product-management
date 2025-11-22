@@ -1,4 +1,6 @@
 const User = require("../../models/user.model");
+const RoomChat = require("../../models/room-chat.model");
+
 module.exports = async (res) => {
     const myUserId = res.locals.user.id;
 
@@ -11,7 +13,7 @@ module.exports = async (res) => {
                 _id: myUserId,
                 requestFriends: userId
             });
-            if(!exitUserBinA){
+            if (!exitUserBinA) {
                 await User.updateOne({
                     _id: myUserId
                 }, {
@@ -26,7 +28,7 @@ module.exports = async (res) => {
                 _id: userId,
                 acceptFriends: myUserId
             });
-            if(!exitUserAinB){
+            if (!exitUserAinB) {
                 await User.updateOne({
                     _id: userId
                 }, {
@@ -47,9 +49,9 @@ module.exports = async (res) => {
             });
             //End 
 
-            
+
             //Gửi client thông tin của ông A vào danh sách lời mời kết bạn
-            const inforUser = await User.findOne({_id: myUserId}).select("id avatar fullName");
+            const inforUser = await User.findOne({ _id: myUserId }).select("id avatar fullName");
             socket.broadcast.emit("SERVER_RETURN_INFOR_ACCEPT_FRIEND", {
                 userId: userId,
                 inforUser: inforUser
@@ -65,7 +67,7 @@ module.exports = async (res) => {
                 _id: myUserId,
                 requestFriends: userId
             });
-            if(exitUserBinA){
+            if (exitUserBinA) {
                 await User.updateOne({
                     _id: myUserId
                 }, {
@@ -80,7 +82,7 @@ module.exports = async (res) => {
                 _id: userId,
                 acceptFriends: myUserId
             });
-            if(exitUserAinB){
+            if (exitUserAinB) {
                 await User.updateOne({
                     _id: userId
                 }, {
@@ -89,8 +91,8 @@ module.exports = async (res) => {
                     }
                 });
             }
-            
-            
+
+
             //Gửi về client số lượng lời mời kết bạn mới và hiển thị số lượng đó ra màn hình ông B
             const userB = await User.findOne({
                 _id: userId
@@ -121,7 +123,7 @@ module.exports = async (res) => {
                 _id: userId,
                 requestFriends: myUserId
             });
-            if(exitUserBinA){
+            if (exitUserBinA) {
                 await User.updateOne({
                     _id: userId
                 }, {
@@ -136,7 +138,7 @@ module.exports = async (res) => {
                 _id: myUserId,
                 acceptFriends: userId
             });
-            if(exitUserAinB){
+            if (exitUserAinB) {
                 await User.updateOne({
                     _id: myUserId
                 }, {
@@ -158,7 +160,7 @@ module.exports = async (res) => {
             });
             //End 
 
-            
+
             //Gửi về thông điệp cho ông A sau khi từ chối kết bạn
             socket.broadcast.emit("SERVER_RETURN_TO_A", {
                 userIdA: userId,
@@ -170,23 +172,52 @@ module.exports = async (res) => {
 
         //Chức năng chấp nhận yêu cầu trong lời mời kết bạn
         socket.on("CLIENT_ACCEPT_FRIEND", async (userId) => {
-            //Xóa id của ông B trong requestFriends của ông A
-            //Tìm xem id của ông B có trong requestFriends của ông A chưa để xóa
-            //Thêm id của ông B vào friendList của ông A
             // myUserId: ông B
             //userId: ông A
+
+            //Tìm xem id của ông B có trong requestFriends của ông A chưa để xóa
             const exitUserBinA = await User.findOne({
                 _id: userId,
                 requestFriends: myUserId
             });
-            if(exitUserBinA){
+
+            //Tìm xem id của ông A có trong acceptFriends của ông B chưa để xóa
+            const exitUserAinB = await User.findOne({
+                _id: myUserId,
+                acceptFriends: userId
+            });
+
+            //Tạo 1 phòng chat giữa 2 người
+            let roomChat;
+            if (exitUserBinA && exitUserAinB) {
+                roomChat = new RoomChat({
+                    typeRoom: "friend",
+                    users: [
+                        {
+                            user_id: myUserId,
+                            role: "superAdmin"
+                        },
+                        {
+                            user_id: userId,
+                            role: "superAdmin"
+                        }
+                    ]
+                });
+                await roomChat.save();
+            }
+            //End tạo 1 phòng chat giữa 2 người
+
+
+            //Xóa id của ông B trong requestFriends của ông A
+            //Thêm id của ông B vào friendList của ông A
+            if (exitUserBinA) {
                 await User.updateOne({
                     _id: userId
                 }, {
                     $push: {
                         friendList: {
                             user_id: myUserId,
-                            room_chat_id: ""
+                            room_chat_id: roomChat.id
                         }
                     },
                     $pull: {
@@ -194,21 +225,18 @@ module.exports = async (res) => {
                     }
                 });
             }
+
+
             //Xóa id của ông A trong acceptFriends của ông B
-            //Tìm xem id của ông A có trong acceptFriends của ông B chưa để xóa
             //Thêm id của ông A vào friendList của ông B
-            const exitUserAinB = await User.findOne({
-                _id: myUserId,
-                acceptFriends: userId
-            });
-            if(exitUserAinB){
+            if (exitUserAinB) {
                 await User.updateOne({
                     _id: myUserId
                 }, {
                     $push: {
                         friendList: {
                             user_id: userId,
-                            room_chat_id: ""
+                            room_chat_id: roomChat.id
                         }
                     },
                     $pull: {
@@ -218,6 +246,5 @@ module.exports = async (res) => {
             }
         });
 
-        
     });
 }
